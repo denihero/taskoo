@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:taskoo/src/screen/main/main_page.dart';
+import 'package:taskoo/src/screen/setting/setting_page.dart';
 
 
 class App extends StatelessWidget {
@@ -12,6 +14,7 @@ class App extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/':(context) => const MainPage(),
+        '/setting':(context) => const SettingPage(),
       },
       theme: ThemeData.dark(),
       themeMode: ThemeMode.dark,

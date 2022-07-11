@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:taskoo/src/screen/main/widget/menu_bottom_sheet.dart';
+import 'package:taskoo/src/screen/main/widget/task_add_sheet.dart';
 
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
+
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+
+  final FocusNode addTaskFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -66,11 +76,19 @@ class MainPage extends StatelessWidget {
             ),
           ),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/add_task');
+            showModalBottomSheet(
+                elevation: 0,
+                isScrollControlled: true,
+                barrierColor: Colors.black38,
+                context: context,
+                builder: (context) {
+                  return TaskAddSheet(focusNode: addTaskFocusNode);
+                });
           },
+          isExtended: true,
           child: const Icon(Icons.add),
         ),
       ),

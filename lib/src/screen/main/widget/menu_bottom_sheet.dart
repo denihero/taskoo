@@ -31,8 +31,11 @@ class MenuBottomSheet extends StatelessWidget {
                   Positioned(
                       top: 9,
                       left: 9,
-                      child: Text('9',style: TextStyle(fontSize: 11,color: Colors.greenAccent),)
-                  )
+                      child: Text(
+                        '9',
+                        style:
+                            TextStyle(fontSize: 11, color: Colors.greenAccent),
+                      ))
                 ],
               ),
               title: const Text('Сегодня'),
