@@ -13,7 +13,7 @@ class MenuBottomSheet extends StatelessWidget {
             height: 35,
           ),
           isScrollingIcon(),
-          userProfile(),
+          userProfile(context),
           taskNews(
               icon: const Icon(
                 Icons.inbox,
@@ -61,7 +61,7 @@ class MenuBottomSheet extends StatelessWidget {
     );
   }
 
-  Widget userProfile() {
+  Widget userProfile(BuildContext context) {
     return ListTile(
         leading: const CircleAvatar(
           radius: 30,
@@ -73,7 +73,9 @@ class MenuBottomSheet extends StatelessWidget {
         ),
         subtitle: const Text('0/4'),
         trailing: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, '/setting');
+          },
           icon: const Icon(
             Icons.settings,
             size: 27,

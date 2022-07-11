@@ -10,8 +10,36 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-
   final FocusNode addTaskFocusNode = FocusNode();
+
+  final choice = [
+    PopupMenuItem(
+      value: 1,
+      // row with 2 children
+      child: Row(
+        children: const [
+          Icon(Icons.add_chart),
+          SizedBox(
+            width: 10,
+          ),
+          Text("Отображение")
+        ],
+      ),
+    ),
+    PopupMenuItem(
+      value: 2,
+      // row with two children
+      child: Row(
+        children: const [
+          Icon(Icons.book),
+          SizedBox(
+            width: 10,
+          ),
+          Text("Журнал действий")
+        ],
+      ),
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +50,17 @@ class _MainPageState extends State<MainPage> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: const Text('Taskoo'),
+          actions: [
+            PopupMenuButton<int>(
+              itemBuilder: (context) => choice,
+              elevation: 2,
+              // on selected we show the dialog box
+              onSelected: (value) {},
+            ),
+          ],
         ),
         body: Column(
-          children: [],
+          children: const [],
         ),
         bottomNavigationBar: Container(
           height: 55,
@@ -76,7 +112,8 @@ class _MainPageState extends State<MainPage> {
             ),
           ),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
+        floatingActionButtonLocation:
+            FloatingActionButtonLocation.miniCenterDocked,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             showModalBottomSheet(
