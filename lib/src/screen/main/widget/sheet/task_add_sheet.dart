@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskoo/service/database/sql_crud.dart';
 
 class TaskAddSheet extends StatefulWidget {
 
@@ -10,6 +11,11 @@ class TaskAddSheet extends StatefulWidget {
 }
 
 class _TaskAddSheetState extends State<TaskAddSheet> {
+
+  final textController = TextEditingController();
+  final descriptionController = TextEditingController();
+
+  final DatabaseCRUD databaseCRUD = DatabaseCRUD();
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +36,7 @@ class _TaskAddSheetState extends State<TaskAddSheet> {
             children: [
               TextFormField(
                 autofocus: true,
+                controller: textController,
                 focusNode: widget.focusNode,
                 decoration: const InputDecoration(
                     hintText: 'Напр,. пойти в ресторан',
@@ -37,6 +44,7 @@ class _TaskAddSheetState extends State<TaskAddSheet> {
                     contentPadding: EdgeInsets.zero),
               ),
               TextFormField(
+                controller: descriptionController,
                 decoration: const InputDecoration(
                     hintText: 'Описание',
                     border: InputBorder.none,
@@ -47,8 +55,9 @@ class _TaskAddSheetState extends State<TaskAddSheet> {
                 child: IconButton(
                     constraints: const BoxConstraints(),
                     padding: const EdgeInsets.only(right: 10),
-                    onPressed: () {
-                      Navigator.pop(context);
+                    onPressed: ()  async{
+                      await databaseCRUD.insertTask(textController.text, descriptionController.text);
+                      //Navigator.pop(context);
                     },
                     icon: const Icon(Icons.send_outlined)),
               )

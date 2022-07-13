@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:taskoo/src/screen/main/widget/menu_bottom_sheet.dart';
-import 'package:taskoo/src/screen/main/widget/task_add_sheet.dart';
+import 'package:taskoo/src/screen/main/widget/sheet/menu_bottom_sheet.dart';
+import 'package:taskoo/src/screen/main/widget/sheet/task_add_sheet.dart';
+import 'package:taskoo/src/screen/main/widget/task_card.dart';
+
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -59,8 +61,14 @@ class _MainPageState extends State<MainPage> {
             ),
           ],
         ),
-        body: Column(
-          children: const [],
+        body: ListView.builder(
+            itemCount: 2,
+            itemBuilder: (context,index){
+              return const TaskCardWidget(
+                title: 'Make some stuff',
+                subtitle: 'Go to the fucking job',
+              );
+            }
         ),
         bottomNavigationBar: Container(
           height: 55,
