@@ -22,7 +22,7 @@ class DatabaseCRUD{
   }
 
 
-    Future<void> insertTask(String title,String subtitle) async{
+    static  insertTask(String title,String subtitle) async{
       final db = await DatabaseCRUD.initDatabase();
       final data = {'title':title,'subtitle':subtitle};
       

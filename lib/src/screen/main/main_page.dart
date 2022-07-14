@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskoo/service/database/sql_crud.dart';
+import 'package:taskoo/src/screen/bloc/task_cubit.dart';
 import 'package:taskoo/src/screen/main/widget/sheet/menu_bottom_sheet.dart';
 import 'package:taskoo/src/screen/main/widget/sheet/task_add_sheet.dart';
 import 'package:taskoo/src/screen/main/widget/task_card.dart';
@@ -22,6 +24,7 @@ class _MainPageState extends State<MainPage> {
       _journals = data;
     });
   }
+
   void _deleteItem(int id) async {
     await DatabaseCRUD.deleteItem(id);
     _refreshJournals();
@@ -32,6 +35,7 @@ class _MainPageState extends State<MainPage> {
     super.initState();
     _refreshJournals();
   }
+
   final FocusNode addTaskFocusNode = FocusNode();
 
   final choice = [
@@ -83,22 +87,37 @@ class _MainPageState extends State<MainPage> {
         ),
         body: RefreshIndicator(
           onRefresh: () async {
-              await _refreshJournals();
+            BlocProvider.of<TaskCubit>(context).getTasks();
           },
-          child: ListView.builder(
-              itemCount: _journals.length,
-              itemBuilder: (context,index){
-                final journals = _journals[index];
-                return TaskCardWidget(
-                  title: _journals[index]['title'],
-                  subtitle: _journals[index]['subtitle'],
-                  id: _journals[index]['id'],
-                  onDelete: (value) {
-                    _deleteItem(_journals[index]['id']);
-                  },
-                  keyValue: '$journals',
+          child: BlocBuilder<TaskCubit, TaskState>(
+            builder: (context, state) {
+              if(state is TaskLoading){
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }else if(state is TaskError){
+                return const Text('Some thing get wrong');
+              }else if(state is TaskSuccess){
+                final task = state.task;
+                return ListView.builder(
+                    itemCount: task.length,
+                    itemBuilder: (context, index) {
+                      final journals = _journals[index];
+                      return TaskCardWidget(
+                        title: task[index]['title'],
+                        subtitle: task[index]['subtitle'],
+                        id: task[index]['id'],
+                        onDelete: (value) {
+                          _deleteItem(task[index]['id']);
+                        },
+                        keyValue: '$journals',
+                      );
+                    }
                 );
               }
+              return const SizedBox();
+
+            },
           ),
         ),
         bottomNavigationBar: Container(
@@ -152,18 +171,18 @@ class _MainPageState extends State<MainPage> {
           ),
         ),
         floatingActionButtonLocation:
-            FloatingActionButtonLocation.miniCenterDocked,
+        FloatingActionButtonLocation.miniCenterDocked,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             showModalBottomSheet(
-              backgroundColor: Colors.transparent,
+                backgroundColor: Colors.transparent,
                 elevation: 0,
                 barrierColor: Colors.black38,
                 context: context,
                 builder: (context) {
                   return TaskAddSheet(
-                    focusNode: addTaskFocusNode,
-                    updateState: _refreshJournals,
+                      focusNode: addTaskFocusNode,
+                      updateState: _refreshJournals
                   );
                 });
           },

@@ -73,13 +73,13 @@ class _TaskAddSheetState extends State<TaskAddSheet> {
                     child: IconButton(
                         constraints: const BoxConstraints(),
                         padding: EdgeInsets.zero,
-                        onPressed: ()  async {
+                        onPressed: () {
                           if(textController.text.isEmpty || textController.text.isEmpty && descriptionController.text.isEmpty){
                             return;
                           }else{
+                            DatabaseCRUD.insertTask(textController.text, descriptionController.text);
                             Navigator.pop(context);
                             widget.updateState;
-                            await databaseCRUD.insertTask(textController.text, descriptionController.text);
                           }
                         },
                         icon: const Icon(
