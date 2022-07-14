@@ -1,61 +1,106 @@
 import 'package:flutter/material.dart';
+import 'package:roundcheckbox/roundcheckbox.dart';
+import 'package:taskoo/src/screen/main/widget/task_update.dart';
 
 class TaskCardWidget extends StatelessWidget {
-  const TaskCardWidget({Key? key, required this.title, required this.subtitle}) : super(key: key);
+  const TaskCardWidget({Key? key, required this.title, required this.subtitle, required this.keyValue, required this.onDelete, required this.id}) : super(key: key);
   final String title;
   final String subtitle;
+  final int id;
+  final String keyValue;
+  final Function(DismissDirection) onDelete;
 
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      visualDensity: VisualDensity.adaptivePlatformDensity,
-      leading: Checkbox(
-        value: false,
-        onChanged: (value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: Dismissible(
+        key: Key(keyValue),
+        onDismissed: onDelete,
+        background: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          color: Colors.red,
+          alignment: Alignment.centerRight,
+          child: const Icon(Icons.cancel),
+        ),
+        child: ListTile(
+          onTap: () {
+            showModalBottomSheet(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                barrierColor: Colors.black38,
+                context: context,
+                builder: (context) {
+                  return TaskUpdateSheet(
+                    title: title,
+                    subtitle: subtitle,
+                    id: id,
+                  );
+                }
+            );
 
-        },
-        shape: const CircleBorder(),
-      ),
-      title: Text(title),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 7,
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width / 1.3,
-            child: Text(
-              subtitle,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                  fontSize: 12
-              ),
+          },
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          leading: Transform.translate(
+            offset: const Offset(0, -13),
+            child: RoundCheckBox(
+              size: 23,
+              checkedColor: Colors.teal,
+              borderColor: Colors.white,
+              animationDuration: const Duration(milliseconds: 100),
+              onTap: (selected) {
+
+              }
             ),
           ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Transform.translate(
-              offset: const Offset(15,5),
-              child: SizedBox(
-                width: 100,
-                child: Row(
-                  children: const [
-                    Text('Входящие',style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 13
-                    ),),
-                    Icon(Icons.inbox,size: 15,)
-                  ],
+          title: Transform.translate(
+            offset: const Offset(-20, 0),
+              child: Text(title)
+          ),
+          subtitle: Transform.translate(
+            offset: const Offset(-20, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 7,
                 ),
-              ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 1.3,
+                  child: Text(
+                    subtitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        fontSize: 12
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Transform.translate(
+                    offset: const Offset(50,5),
+                    child: SizedBox(
+                      width: 100,
+                      child: Row(
+                        children: const [
+                          Text('Входящие',style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 13
+                          ),),
+                          Icon(Icons.inbox,size: 15,)
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
 
+        ),
+      ),
     );
   }
 }

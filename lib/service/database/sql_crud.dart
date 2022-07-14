@@ -14,7 +14,7 @@ class DatabaseCRUD{
 
       onCreate: (db, version) {
         return db.execute(
-            'CREATE TABLE task(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,,title TEXT,subtitle TEXT)');
+            'CREATE TABLE task(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,title TEXT,subtitle TEXT)');
       },
       version: 1,
     );
@@ -32,6 +32,30 @@ class DatabaseCRUD{
           conflictAlgorithm: ConflictAlgorithm.replace,
      );
     }
+
+    static Future<List<Map<String,dynamic>>> getItems() async{
+    final db = await DatabaseCRUD.initDatabase();
+    return db.query('task',orderBy: 'id');
+    }
+
+  static Future<void> deleteItem(int id) async {
+    final db = await DatabaseCRUD.initDatabase();
+    try {
+      await db.delete("task", where: "id = ?", whereArgs: [id]);
+    } catch (err) {
+      debugPrint("Something went wrong when deleting an item: $err");
+    }
+  }
+
+  static Future<void> updateItem(int id,String title,String subtitle) async{
+    final db = await DatabaseCRUD.initDatabase();
+    final data = {'title':title,'subtitle':subtitle};
+    try{
+      await db.update("task",data,where: "id = ?",whereArgs: [id]);
+    }catch(err){
+      debugPrint("Something went wrong when deleting an item: $err");
+    }
+  }
 
 
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskoo/service/database/sql_crud.dart';
 import 'package:taskoo/src/screen/main/widget/sheet/menu_bottom_sheet.dart';
 import 'package:taskoo/src/screen/main/widget/sheet/task_add_sheet.dart';
 import 'package:taskoo/src/screen/main/widget/task_card.dart';
@@ -12,6 +13,25 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+
+  List<Map<String, dynamic>> _journals = [];
+
+  _refreshJournals() async {
+    final data = await DatabaseCRUD.getItems();
+    setState(() {
+      _journals = data;
+    });
+  }
+  void _deleteItem(int id) async {
+    await DatabaseCRUD.deleteItem(id);
+    _refreshJournals();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshJournals();
+  }
   final FocusNode addTaskFocusNode = FocusNode();
 
   final choice = [
@@ -47,7 +67,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -61,14 +81,25 @@ class _MainPageState extends State<MainPage> {
             ),
           ],
         ),
-        body: ListView.builder(
-            itemCount: 2,
-            itemBuilder: (context,index){
-              return const TaskCardWidget(
-                title: 'Make some stuff',
-                subtitle: 'Go to the fucking job',
-              );
-            }
+        body: RefreshIndicator(
+          onRefresh: () async {
+              await _refreshJournals();
+          },
+          child: ListView.builder(
+              itemCount: _journals.length,
+              itemBuilder: (context,index){
+                final journals = _journals[index];
+                return TaskCardWidget(
+                  title: _journals[index]['title'],
+                  subtitle: _journals[index]['subtitle'],
+                  id: _journals[index]['id'],
+                  onDelete: (value) {
+                    _deleteItem(_journals[index]['id']);
+                  },
+                  keyValue: '$journals',
+                );
+              }
+          ),
         ),
         bottomNavigationBar: Container(
           height: 55,
@@ -80,7 +111,7 @@ class _MainPageState extends State<MainPage> {
           ),
           child: BottomAppBar(
             notchMargin: 4,
-            clipBehavior: Clip.hardEdge,
+            clipBehavior: Clip.antiAliasWithSaveLayer,
             shape: const CircularNotchedRectangle(),
             child: Row(
               mainAxisSize: MainAxisSize.max,
@@ -125,12 +156,15 @@ class _MainPageState extends State<MainPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             showModalBottomSheet(
+              backgroundColor: Colors.transparent,
                 elevation: 0,
-                isScrollControlled: true,
                 barrierColor: Colors.black38,
                 context: context,
                 builder: (context) {
-                  return TaskAddSheet(focusNode: addTaskFocusNode);
+                  return TaskAddSheet(
+                    focusNode: addTaskFocusNode,
+                    updateState: _refreshJournals,
+                  );
                 });
           },
           isExtended: true,
