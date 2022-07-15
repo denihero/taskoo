@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:roundcheckbox/roundcheckbox.dart';
 import 'package:taskoo/src/screen/main/widget/task_update.dart';
@@ -7,7 +9,7 @@ class TaskCardWidget extends StatelessWidget {
   final String title;
   final String subtitle;
   final int id;
-  final String keyValue;
+  final int keyValue;
   final Function(DismissDirection) onDelete;
 
 
@@ -16,7 +18,7 @@ class TaskCardWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
       child: Dismissible(
-        key: Key(keyValue),
+        key: Key('$keyValue'),
         onDismissed: onDelete,
         background: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -26,19 +28,22 @@ class TaskCardWidget extends StatelessWidget {
         ),
         child: ListTile(
           onTap: () {
-            showModalBottomSheet(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                barrierColor: Colors.black38,
-                context: context,
-                builder: (context) {
-                  return TaskUpdateSheet(
-                    title: title,
-                    subtitle: subtitle,
-                    id: id,
-                  );
-                }
-            );
+            Timer(const Duration(milliseconds: 150), () {
+              showModalBottomSheet(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  barrierColor: Colors.black38,
+                  context: context,
+                  builder: (context) {
+                    return TaskUpdateSheet(
+                      title: title,
+                      subtitle: subtitle,
+                      id: id,
+                    );
+                  }
+              );
+            });
+
 
           },
           visualDensity: VisualDensity.adaptivePlatformDensity,

@@ -22,7 +22,7 @@ class DatabaseCRUD{
   }
 
 
-    static  insertTask(String title,String subtitle) async{
+    static insertTask(String title,String? subtitle) async{
       final db = await DatabaseCRUD.initDatabase();
       final data = {'title':title,'subtitle':subtitle};
       
@@ -38,7 +38,7 @@ class DatabaseCRUD{
     return db.query('task',orderBy: 'id');
     }
 
-  static Future<void> deleteItem(int id) async {
+  static Future deleteItem(int id) async {
     final db = await DatabaseCRUD.initDatabase();
     try {
       await db.delete("task", where: "id = ?", whereArgs: [id]);
@@ -47,7 +47,7 @@ class DatabaseCRUD{
     }
   }
 
-  static Future<void> updateItem(int id,String title,String subtitle) async{
+  static updateItem(int id,String title,String subtitle) async{
     final db = await DatabaseCRUD.initDatabase();
     final data = {'title':title,'subtitle':subtitle};
     try{

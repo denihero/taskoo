@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:taskoo/src/screen/bloc/task_cubit.dart';
+import 'package:taskoo/src/screen/bloc/add_task/add_task_cubit.dart';
+import 'package:taskoo/src/screen/bloc/get_task/get_task_cubit.dart';
 import 'package:taskoo/src/screen/main/main_page.dart';
 import 'package:taskoo/src/screen/setting/setting_page.dart';
 
@@ -14,7 +15,10 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-            create: (context) => TaskCubit()
+            create: (context) => GetTaskCubit()
+        ),
+        BlocProvider(
+            create: (context) => AddTaskCubit()
         )
       ],
       child: MaterialApp(

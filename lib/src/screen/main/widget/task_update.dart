@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskoo/service/database/sql_crud.dart';
+import 'package:taskoo/src/screen/bloc/add_task/add_task_cubit.dart';
+import 'package:taskoo/src/screen/bloc/get_task/get_task_cubit.dart';
 
 class TaskUpdateSheet extends StatelessWidget {
   TaskUpdateSheet({Key? key, required this.title, required this.subtitle, required this.id}) : super(key: key);
@@ -68,7 +71,8 @@ class TaskUpdateSheet extends StatelessWidget {
                         backgroundColor: MaterialStateProperty.all(Colors.teal),
                       ),
                       onPressed: () async{
-                        await DatabaseCRUD.updateItem(id, titleController.text, subtitleController.text);
+                        BlocProvider.of<AddTaskCubit>(context).updateTask(id, titleController.text, subtitleController.text);
+                        BlocProvider.of<GetTaskCubit>(context).getTasks();
                         Navigator.of(context).pop();
                       },
                       child: const Text('Update'),
