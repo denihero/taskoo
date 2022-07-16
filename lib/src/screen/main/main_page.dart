@@ -92,7 +92,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
             onRefresh: () async {
               await BlocProvider.of<GetTaskCubit>(context).getTasks();
             },
-            child: BlocBuilder<GetTaskCubit, GetTaskState>(
+            child: BlocConsumer<GetTaskCubit, GetTaskState>(
               builder: (context, state) {
                 if(state is GetTaskLoading){
                   return const Center(
@@ -111,7 +111,6 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                           id: task[index]['id'],
                           onDelete: (value) {
                             BlocProvider.of<AddTaskCubit>(context).deleteTask(task[index]['id']);
-                            BlocProvider.of<GetTaskCubit>(context).getTasks();
                           },
                           keyValue: task[index]['id'],
                         );
@@ -121,7 +120,11 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                 return const SizedBox();
 
               },
-
+              listener: (context,state){
+                if(state is AddTaskSuccess){
+                  BlocProvider.of<GetTaskCubit>(context).getTasks();
+                }
+              }
             ),
           ),
           bottomNavigationBar: Container(

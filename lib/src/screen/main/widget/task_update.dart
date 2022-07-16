@@ -72,7 +72,6 @@ class TaskUpdateSheet extends StatelessWidget {
                       ),
                       onPressed: () async{
                         BlocProvider.of<AddTaskCubit>(context).updateTask(id, titleController.text, subtitleController.text);
-                        BlocProvider.of<GetTaskCubit>(context).getTasks();
                         Navigator.of(context).pop();
                       },
                       child: const Text('Update'),
