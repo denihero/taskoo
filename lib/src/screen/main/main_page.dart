@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taskoo/src/screen/bloc/add_task/task_crud_bloc.dart';
+import 'package:taskoo/src/screen/bloc/crud_task/task_crud_bloc.dart';
 import 'package:taskoo/src/screen/main/widget/sheet/menu_bottom_sheet.dart';
 import 'package:taskoo/src/screen/main/widget/sheet/task_add_sheet.dart';
 import 'package:taskoo/src/screen/main/widget/task_card.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taskoo/src/screen/bloc/add_task/task_crud_bloc.dart';
+import 'package:taskoo/src/screen/bloc/crud_task/task_crud_bloc.dart';
 
 class TaskUpdateSheet extends StatelessWidget {
   TaskUpdateSheet({Key? key, required this.title, required this.subtitle, required this.id}) : super(key: key);
@@ -8,13 +8,15 @@ class TaskUpdateSheet extends StatelessWidget {
   final String subtitle;
   final int id;
 
-  final titleController = TextEditingController(text: '12');
+  final titleController = TextEditingController();
   final subtitleController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     titleController.text = title;
     subtitleController.text = subtitle;
+    titleController.selection = TextSelection.fromPosition(TextPosition(offset: titleController.text.length));
+    subtitleController.selection = TextSelection.fromPosition(TextPosition(offset: subtitleController.text.length));
     return SingleChildScrollView(
       child: Container(
         decoration: BoxDecoration(

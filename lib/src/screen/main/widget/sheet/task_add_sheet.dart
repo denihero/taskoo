@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskoo/service/database/sql_crud.dart';
-import 'package:taskoo/src/screen/bloc/add_task/task_crud_bloc.dart';
+import 'package:taskoo/src/screen/bloc/crud_task/task_crud_bloc.dart';
 
 class TaskAddSheet extends StatefulWidget {
   const TaskAddSheet(
@@ -70,6 +70,7 @@ class _TaskAddSheetState extends State<TaskAddSheet> {
                     ),
                     TextFormField(
                       autofocus: true,
+                      autocorrect: true,
                       controller: textController,
                       focusNode: focusNode,
                       cursorColor: Colors.teal,
