@@ -8,14 +8,26 @@ import 'package:taskoo/service/database/sql_crud.dart';
 part 'task_crud_event.dart';
 part 'task_crud_state.dart';
 
-class TaskCudBloc extends Bloc<TaskCudEvent, TaskCrudState> {
-  TaskCudBloc() : super(TaskCrudInitial()) {
+class TaskCrudBloc extends Bloc<TaskCrudEvent, TaskCrudState> {
+  TaskCrudBloc() : super(TaskCrudInitial()) {
 
     on<TaskGetEvent>((event,emit) async{
       emit(TaskCrudLoading());
       try{
         final getTask = await DatabaseCRUD.getItems();
         emit(TaskCrudSuccess(tasks: getTask));
+      }catch(err,s){
+        print(err);
+        print(s);
+        emit(TaskCrudError());
+      }
+    });
+
+    on<TaskSearchEvent>((event,emit) async{
+      emit(TaskCrudLoading());
+      try{
+        final searchTask = await DatabaseCRUD.searchTask();
+        emit(TaskSearchSuccess(tasks: searchTask));
       }catch(err,s){
         print(err);
         print(s);

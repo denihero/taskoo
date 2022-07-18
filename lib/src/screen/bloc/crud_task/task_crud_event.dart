@@ -1,26 +1,26 @@
 part of 'task_crud_bloc.dart';
 
-abstract class TaskCudEvent extends Equatable {
+abstract class TaskCrudEvent extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class TaskAddEvent extends TaskCudEvent{
+class TaskAddEvent extends TaskCrudEvent{
   final String title;
   final String subtitle;
 
   TaskAddEvent({required this.title,required this.subtitle});
 }
-class TaskDeleteEvent extends TaskCudEvent{
+class TaskDeleteEvent extends TaskCrudEvent{
   final int id;
 
   TaskDeleteEvent({required this.id});
 }
-class TaskUpdateEvent extends TaskCudEvent{
+class TaskUpdateEvent extends TaskCrudEvent{
   final int id;
   final String title;
   final String subtitle;
 
   TaskUpdateEvent({required this.id,required this.title,required this.subtitle});
-}
-class TaskGetEvent extends TaskCudEvent{}
+}class TaskSearchEvent extends TaskCrudEvent{}
+class TaskGetEvent extends TaskCrudEvent{}

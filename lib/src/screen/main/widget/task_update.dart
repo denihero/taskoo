@@ -71,7 +71,7 @@ class TaskUpdateSheet extends StatelessWidget {
                         backgroundColor: MaterialStateProperty.all(Colors.teal),
                       ),
                       onPressed: () async{
-                       context.read<TaskCudBloc>().add(TaskUpdateEvent(title: titleController.text, subtitle: subtitleController.text, id: id));
+                       context.read<TaskCrudBloc>().add(TaskUpdateEvent(title: titleController.text, subtitle: subtitleController.text, id: id));
                         Navigator.of(context).pop();
                       },
                       child: const Text('Update'),

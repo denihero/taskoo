@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskoo/src/screen/bloc/crud_task/task_crud_bloc.dart';
 import 'package:taskoo/src/screen/main/widget/sheet/menu_bottom_sheet.dart';
+import 'package:taskoo/src/screen/main/widget/sheet/search_sheet.dart';
 import 'package:taskoo/src/screen/main/widget/sheet/task_add_sheet.dart';
 import 'package:taskoo/src/screen/main/widget/task_card.dart';
 
@@ -20,7 +21,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
   @override
   void initState() {
     super.initState();
-    context.read<TaskCudBloc>().add(TaskGetEvent());
+    context.read<TaskCrudBloc>().add(TaskGetEvent());
     animationController = AnimationController(
         vsync: this,
         duration: const Duration(milliseconds: 200),
@@ -86,9 +87,9 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
           ),
           body: RefreshIndicator(
             onRefresh: () async {
-              context.read<TaskCudBloc>().add(TaskGetEvent());
+              context.read<TaskCrudBloc>().add(TaskGetEvent());
             },
-            child: BlocConsumer<TaskCudBloc, TaskCrudState>(
+            child: BlocConsumer<TaskCrudBloc, TaskCrudState>(
               builder: (context, state) {
                 if(state is TaskCrudLoading){
                   return const Center(
@@ -106,7 +107,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                           subtitle: task[index]['subtitle'],
                           id: task[index]['id'],
                           onDelete: (value) {
-                            context.read<TaskCudBloc>().add(TaskDeleteEvent(id: task[index]['id']));
+                            context.read<TaskCrudBloc>().add(TaskDeleteEvent(id: task[index]['id']));
                           },
                           keyValue: task[index]['id'],
                         );
@@ -117,10 +118,8 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
               },
               listener: (context,state){
                 if(state is TaskCRUDFinish){
-                  context.read<TaskCudBloc>().add(TaskGetEvent());
+                  context.read<TaskCrudBloc>().add(TaskGetEvent());
                 }
-
-
               }
             ),
           ),
@@ -158,6 +157,10 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                     children: [
                       IconButton(
                           onPressed: () {
+                            showSearch(
+                                context: context,
+                                  delegate: CustomSearchDelegate()
+                            );
                           },
                           icon: const Icon(
                             Icons.search,

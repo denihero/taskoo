@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskoo/src/screen/main/widget/top_is_scroll_icon.dart';
 
 class MenuBottomSheet extends StatelessWidget {
   const MenuBottomSheet({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class MenuBottomSheet extends StatelessWidget {
           const SizedBox(
             height: 35,
           ),
-          isScrollingIcon(),
+         TopIsScrollIcon(),
           userProfile(context),
           taskNews(
               icon: const Icon(
@@ -49,15 +50,6 @@ class MenuBottomSheet extends StatelessWidget {
               onTap: () {}),
         ],
       ),
-    );
-  }
-
-  Widget isScrollingIcon() {
-    return Container(
-      width: 40,
-      height: 5,
-      decoration: BoxDecoration(
-          color: Colors.grey, borderRadius: BorderRadius.circular(20)),
     );
   }
 

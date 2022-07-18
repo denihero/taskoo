@@ -13,7 +13,7 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-            create: (context) => TaskCudBloc()
+            create: (context) => TaskCrudBloc()
         )
       ],
       child: MaterialApp(

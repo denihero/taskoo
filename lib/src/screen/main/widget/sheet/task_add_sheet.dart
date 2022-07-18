@@ -109,7 +109,7 @@ class _TaskAddSheetState extends State<TaskAddSheet> {
                                   if(textController.text.isEmpty || textController.text.isEmpty && subtitleController.text.isEmpty){
                                     return;
                                   }else{
-                                   context.read<TaskCudBloc>().add(TaskAddEvent(title: textController.text, subtitle: subtitleController.text));
+                                   context.read<TaskCrudBloc>().add(TaskAddEvent(title: textController.text, subtitle: subtitleController.text));
                                     textController.text = '';
                                     subtitleController.text = '';
                                   }

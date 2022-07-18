@@ -15,5 +15,13 @@ class TaskCrudSuccess extends TaskCrudState {
   @override
   List<Object> get props => [tasks];
 }
+class TaskSearchSuccess extends TaskCrudState{
+
+  TaskSearchSuccess({required this.tasks});
+  final List<Map<String,dynamic>> tasks;
+
+  @override
+  List<Object> get props => [tasks];
+}
 class TaskCrudLoading extends TaskCrudState {}
 class TaskCRUDFinish extends TaskCrudState {}
