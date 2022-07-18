@@ -2,14 +2,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskoo/service/database/sql_crud.dart';
-import 'package:taskoo/src/screen/bloc/add_task/add_task_cubit.dart';
-import 'package:taskoo/src/screen/bloc/get_task/get_task_cubit.dart';
+import 'package:taskoo/src/screen/bloc/add_task/task_crud_bloc.dart';
 
 class TaskAddSheet extends StatefulWidget {
   const TaskAddSheet(
-      {Key? key,required this.updateState})
+      {Key? key})
       : super(key: key);
-  final Function() updateState;
 
   @override
   State<TaskAddSheet> createState() => _TaskAddSheetState();
@@ -18,7 +16,7 @@ class TaskAddSheet extends StatefulWidget {
 class _TaskAddSheetState extends State<TaskAddSheet> {
   final ValueNotifier<FocusNode> addTaskFocusNode = ValueNotifier(FocusNode());
   final textController = TextEditingController();
-  final descriptionController = TextEditingController();
+  final subtitleController = TextEditingController();
 
 
   final DatabaseCRUD databaseCRUD = DatabaseCRUD();
@@ -86,7 +84,7 @@ class _TaskAddSheetState extends State<TaskAddSheet> {
                     TextFormField(
                       cursorHeight: 17,
                       cursorColor: Colors.teal,
-                      controller: descriptionController,
+                      controller: subtitleController,
                       textCapitalization: TextCapitalization.sentences,
                       textInputAction: TextInputAction.newline,
                       maxLines: 3,
@@ -107,13 +105,12 @@ class _TaskAddSheetState extends State<TaskAddSheet> {
                                 constraints: const BoxConstraints(),
                                 padding: EdgeInsets.zero,
                                 onPressed: () async{
-                                  if(textController.text.isEmpty || textController.text.isEmpty && descriptionController.text.isEmpty){
+                                  if(textController.text.isEmpty || textController.text.isEmpty && subtitleController.text.isEmpty){
                                     return;
                                   }else{
-                                    BlocProvider.of<AddTaskCubit>(context).addTask(textController.text, descriptionController.text);
-                                    BlocProvider.of<GetTaskCubit>(context).getTasks();
+                                   context.read<TaskCudBloc>().add(TaskAddEvent(title: textController.text, subtitle: subtitleController.text));
                                     textController.text = '';
-                                    descriptionController.text = '';
+                                    subtitleController.text = '';
                                   }
                                 }
 

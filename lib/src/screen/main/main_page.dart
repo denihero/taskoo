@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taskoo/service/database/sql_crud.dart';
-import 'package:taskoo/src/screen/bloc/add_task/add_task_cubit.dart';
+import 'package:taskoo/src/screen/bloc/add_task/task_crud_bloc.dart';
 import 'package:taskoo/src/screen/main/widget/sheet/menu_bottom_sheet.dart';
 import 'package:taskoo/src/screen/main/widget/sheet/task_add_sheet.dart';
 import 'package:taskoo/src/screen/main/widget/task_card.dart';
-
-import '../bloc/get_task/get_task_cubit.dart';
 
 
 class MainPage extends StatefulWidget {
@@ -20,11 +17,10 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
 
   late final AnimationController? animationController;
 
-
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<GetTaskCubit>(context).getTasks();
+    context.read<TaskCudBloc>().add(TaskGetEvent());
     animationController = AnimationController(
         vsync: this,
         duration: const Duration(milliseconds: 200),
@@ -90,18 +86,18 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
           ),
           body: RefreshIndicator(
             onRefresh: () async {
-              await BlocProvider.of<GetTaskCubit>(context).getTasks();
+              context.read<TaskCudBloc>().add(TaskGetEvent());
             },
-            child: BlocConsumer<GetTaskCubit, GetTaskState>(
+            child: BlocConsumer<TaskCudBloc, TaskCrudState>(
               builder: (context, state) {
-                if(state is GetTaskLoading){
+                if(state is TaskCrudLoading){
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                }else if(state is GetTaskError){
+                }else if(state is TaskCrudError){
                   return const Text('Some thing get wrong');
-                }else if(state is GetTaskSuccess){
-                  final task = state.task;
+                }else if(state is TaskCrudSuccess){
+                  final task = state.tasks;
                   return ListView.builder(
                       itemCount: task.length,
                       itemBuilder: (context, index) {
@@ -110,7 +106,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                           subtitle: task[index]['subtitle'],
                           id: task[index]['id'],
                           onDelete: (value) {
-                            BlocProvider.of<AddTaskCubit>(context).deleteTask(task[index]['id']);
+                            context.read<TaskCudBloc>().add(TaskDeleteEvent(id: task[index]['id']));
                           },
                           keyValue: task[index]['id'],
                         );
@@ -118,12 +114,13 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                   );
                 }
                 return const SizedBox();
-
               },
               listener: (context,state){
-                if(state is AddTaskSuccess){
-                  BlocProvider.of<GetTaskCubit>(context).getTasks();
+                if(state is TaskCRUDFinish){
+                  context.read<TaskCudBloc>().add(TaskGetEvent());
                 }
+
+
               }
             ),
           ),
@@ -161,7 +158,6 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                     children: [
                       IconButton(
                           onPressed: () {
-                            BlocProvider.of<GetTaskCubit>(context).getTasks();
                           },
                           icon: const Icon(
                             Icons.search,
@@ -191,9 +187,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                   context: context,
                   transitionAnimationController: animationController,
                   builder: (context) {
-                    return TaskAddSheet(
-
-                        updateState: () => BlocProvider.of<GetTaskCubit>(context).getTasks()
+                    return const TaskAddSheet(
 
                     );
                   });

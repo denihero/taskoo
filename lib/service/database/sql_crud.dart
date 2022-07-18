@@ -6,7 +6,6 @@ import 'package:taskoo/service/model/task.dart';
 class DatabaseCRUD{
 
   DatabaseCRUD();
-  // WidgetsFlutterBinding.ensureInitialized();
 
   static Future<Database> initDatabase() async {
     final database = openDatabase(
@@ -22,7 +21,7 @@ class DatabaseCRUD{
   }
 
 
-    static insertTask(String title,String? subtitle) async{
+    static insertTask(String title,String subtitle) async{
       final db = await DatabaseCRUD.initDatabase();
       final data = {'title':title,'subtitle':subtitle};
       
