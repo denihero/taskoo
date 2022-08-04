@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+jobs:
+  static-analyzer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'beta'
+      - name: Get deps
+        run: flutter pub get
+      - name: Format check
+        run: flutter format --set-exit-if-changed .
+      - name: Lint check
+        run: flutter analyze .
+    
+  build-android:
+    needs: static-analyzer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'beta'
+      - name: Get deps
+        run: flutter pub get
+      - name: Generate build_runner files
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+      - name: Build apk.
+        run: flutter build apk
+
+      - name: Store release apk
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-apk
+          path: build/app/outputs/apk/release/app-release.apk
