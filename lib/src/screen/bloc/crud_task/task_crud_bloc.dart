@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskoo/service/database/sql_crud.dart';
 
@@ -13,8 +14,11 @@ class TaskCrudBloc extends Bloc<TaskCrudEvent, TaskCrudState> {
         final getTask = await DatabaseCRUD.getItems();
         emit(TaskCrudSuccess(tasks: getTask));
       } catch (err, s) {
-        print(err);
-        print(s);
+        if (kDebugMode) {
+          print(err);
+          print(s);
+        }
+
         emit(TaskCrudError());
       }
     });
@@ -24,8 +28,11 @@ class TaskCrudBloc extends Bloc<TaskCrudEvent, TaskCrudState> {
         await DatabaseCRUD.insertTask(event.title, event.subtitle);
         emit(TaskCRUDFinish());
       } catch (err, dtl) {
-        print(err);
-        print(dtl);
+        if (kDebugMode) {
+          print(err);
+          print(dtl);
+        }
+
         emit(TaskCrudError());
       }
     });
@@ -35,8 +42,11 @@ class TaskCrudBloc extends Bloc<TaskCrudEvent, TaskCrudState> {
         await DatabaseCRUD.updateItem(event.id, event.title, event.subtitle);
         emit(TaskCRUDFinish());
       } catch (err, dtl) {
-        print(err);
-        print(dtl);
+        if (kDebugMode) {
+          print(err);
+          print(dtl);
+
+        }
         emit(TaskCrudError());
       }
     });
