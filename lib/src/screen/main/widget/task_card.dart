@@ -1,16 +1,24 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:roundcheckbox/roundcheckbox.dart';
 import 'package:taskoo/src/screen/main/widget/task_update.dart';
 
+import '../../bloc/crud_task/task_crud_bloc.dart';
+
 class TaskCardWidget extends StatelessWidget {
-  const TaskCardWidget({Key? key, required this.title, required this.subtitle, required this.keyValue, required this.onDelete, required this.id}) : super(key: key);
+  TaskCardWidget({Key? key, required this.title, required this.subtitle, required this.keyValue, required this.onDelete, required this.id}) : super(key: key);
   final String title;
   final String subtitle;
   final int id;
   final int keyValue;
   final Function(DismissDirection) onDelete;
+
+
+
+  final ValueNotifier<bool> isChecked = ValueNotifier(false);
 
 
   @override
@@ -55,8 +63,11 @@ class TaskCardWidget extends StatelessWidget {
               borderColor: Colors.white,
               animationDuration: const Duration(milliseconds: 100),
               onTap: (selected) {
-
-              }
+                if(selected == true){
+                  context.read<TaskCrudBloc>().add(TaskDeleteEvent(id: id));
+                }
+              },
+              isChecked: isChecked.value,
             ),
           ),
           title: Transform.translate(

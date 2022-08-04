@@ -5,7 +5,7 @@ import 'package:taskoo/service/database/sql_crud.dart';
 import 'package:taskoo/src/screen/bloc/crud_task/task_crud_bloc.dart';
 
 class TaskAddSheet extends StatefulWidget {
-  const TaskAddSheet(
+  const   TaskAddSheet(
       {Key? key})
       : super(key: key);
 
@@ -35,18 +35,9 @@ class _TaskAddSheetState extends State<TaskAddSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        if(addTaskFocusNode.value.hasFocus){
-          addTaskFocusNode.value.unfocus();
-          Navigator.pop(context);
-        }
-
-
-      return Future.value(addTaskFocusNode.value.hasFocus);
-
-      },
-      child: SingleChildScrollView(
+    return SingleChildScrollView(
+      child: Hero(
+        tag: 'key',
         child: Container(
           height: 471,
           decoration: BoxDecoration(

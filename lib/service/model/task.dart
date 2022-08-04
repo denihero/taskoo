@@ -16,6 +16,6 @@ class Task{
 
   @override
   String toString() {
-    return 'Dog{id: $id, title: $title, subtitle: $subtitle}';
+    return 'Dog {id: $id, title: $title, subtitle: $subtitle}';
   }
 }

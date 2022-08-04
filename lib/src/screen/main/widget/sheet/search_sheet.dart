@@ -10,7 +10,6 @@ class CustomSearchDelegate extends SearchDelegate<String> {
     return [
       IconButton(
           onPressed: () {
-            context.read<TaskCrudBloc>().add(TaskSearchEvent());
             print(query);
           },
           icon: const Icon(Icons.search)
@@ -29,39 +28,12 @@ class CustomSearchDelegate extends SearchDelegate<String> {
   @override
   Widget buildResults(BuildContext context) {
     return Column(
-      children: [
+      children: const [
+        SizedBox(
+          height: 10,
+        ),
         Expanded(
-          child: BlocBuilder<TaskCrudBloc, TaskCrudState>(
-            builder: (context, state) {
-              if(state is TaskCrudLoading){
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }else if(state is TaskCrudError){
-                return const Center(
-                  child: Text('Some error happened'),
-                );
-              }else if(state is TaskSearchSuccess){
-                final task = state.tasks;
-                print(task);
-                return ListView.builder(
-                    itemCount: task.length,
-                    itemBuilder: (context, index) {
-                      return TaskCardWidget(
-                          title: task[index]['title'],
-                          subtitle: task[index]['subtitle'],
-                          keyValue: task[index]['id'],
-                          onDelete: (s) {
-
-                          },
-                          id: task[index]['id']
-                      );
-                    }
-                );
-              }
-              return const SizedBox.shrink();
-            },
-          ),
+          child: Text('Wait')
         )
       ],
     );

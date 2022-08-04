@@ -22,5 +22,5 @@ class TaskUpdateEvent extends TaskCrudEvent{
   final String subtitle;
 
   TaskUpdateEvent({required this.id,required this.title,required this.subtitle});
-}class TaskSearchEvent extends TaskCrudEvent{}
+}
 class TaskGetEvent extends TaskCrudEvent{}

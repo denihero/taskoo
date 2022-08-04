@@ -13,7 +13,7 @@ class MenuBottomSheet extends StatelessWidget {
           const SizedBox(
             height: 35,
           ),
-         TopIsScrollIcon(),
+         const TopIsScrollIcon(),
           userProfile(context),
           taskNews(
               icon: const Icon(

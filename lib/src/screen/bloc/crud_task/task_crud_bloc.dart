@@ -23,18 +23,6 @@ class TaskCrudBloc extends Bloc<TaskCrudEvent, TaskCrudState> {
       }
     });
 
-    on<TaskSearchEvent>((event,emit) async{
-      emit(TaskCrudLoading());
-      try{
-        final searchTask = await DatabaseCRUD.searchTask();
-        emit(TaskSearchSuccess(tasks: searchTask));
-      }catch(err,s){
-        print(err);
-        print(s);
-        emit(TaskCrudError());
-      }
-    });
-
     on<TaskAddEvent>((event,emit) async {
       try{
         await DatabaseCRUD.insertTask(event.title, event.subtitle);

@@ -21,49 +21,21 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
   @override
   void initState() {
     super.initState();
-    context.read<TaskCrudBloc>().add(TaskGetEvent());
     animationController = AnimationController(
         vsync: this,
         duration: const Duration(milliseconds: 200),
         reverseDuration: const Duration(milliseconds: 200),
+        upperBound: 2
 
     );
   }
 
   @override
-  void dispose() {
-
-    super.dispose();
+  void didChangeDependencies() {
+    BlocProvider.of<TaskCrudBloc>(context).add(TaskGetEvent());
+    super.didChangeDependencies();
   }
 
-  final choice = [
-    PopupMenuItem(
-      value: 1,
-      // row with 2 children
-      child: Row(
-        children: const [
-          Icon(Icons.add_chart),
-          SizedBox(
-            width: 10,
-          ),
-          Text("Отображение")
-        ],
-      ),
-    ),
-    PopupMenuItem(
-      value: 2,
-      // row with two children
-      child: Row(
-        children: const [
-          Icon(Icons.book),
-          SizedBox(
-            width: 10,
-          ),
-          Text("Журнал действий")
-        ],
-      ),
-    ),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -76,14 +48,6 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
             backgroundColor: Colors.transparent,
             elevation: 0,
             title: const Text('Taskoo'),
-            actions: [
-              PopupMenuButton<int>(
-                itemBuilder: (context) => choice,
-                elevation: 2,
-                // on selected we show the dialog box
-                onSelected: (value) {},
-              ),
-            ],
           ),
           body: RefreshIndicator(
             onRefresh: () async {
@@ -181,6 +145,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
           floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterDocked,
           floatingActionButton: FloatingActionButton(
+            heroTag: 'key',
             onPressed: () {
               showModalBottomSheet(
                   backgroundColor: Colors.transparent,
@@ -190,9 +155,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                   context: context,
                   transitionAnimationController: animationController,
                   builder: (context) {
-                    return const TaskAddSheet(
-
-                    );
+                    return const TaskAddSheet();
                   });
             },
             isExtended: true,
