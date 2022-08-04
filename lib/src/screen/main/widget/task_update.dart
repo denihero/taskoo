@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskoo/src/screen/bloc/crud_task/task_crud_bloc.dart';
 
 class TaskUpdateSheet extends StatelessWidget {
-  TaskUpdateSheet({Key? key, required this.title, required this.subtitle, required this.id}) : super(key: key);
+  TaskUpdateSheet(
+      {Key? key, required this.title, required this.subtitle, required this.id})
+      : super(key: key);
   late final String title;
   final String subtitle;
   final int id;
@@ -15,8 +17,10 @@ class TaskUpdateSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     titleController.text = title;
     subtitleController.text = subtitle;
-    titleController.selection = TextSelection.fromPosition(TextPosition(offset: titleController.text.length));
-    subtitleController.selection = TextSelection.fromPosition(TextPosition(offset: subtitleController.text.length));
+    titleController.selection = TextSelection.fromPosition(
+        TextPosition(offset: titleController.text.length));
+    subtitleController.selection = TextSelection.fromPosition(
+        TextPosition(offset: subtitleController.text.length));
     return SingleChildScrollView(
       child: Container(
         decoration: BoxDecoration(
@@ -25,8 +29,8 @@ class TaskUpdateSheet extends StatelessWidget {
               topLeft: Radius.circular(12),
               topRight: Radius.circular(12),
             )),
-        padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom),
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 0, 0, 15),
           child: Column(
@@ -65,18 +69,20 @@ class TaskUpdateSheet extends StatelessWidget {
               Align(
                 alignment: Alignment.bottomRight,
                 child: Transform.translate(
-                    offset: const Offset(-10,-10),
+                    offset: const Offset(-10, -10),
                     child: ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(Colors.teal),
                       ),
-                      onPressed: () async{
-                       context.read<TaskCrudBloc>().add(TaskUpdateEvent(title: titleController.text, subtitle: subtitleController.text, id: id));
+                      onPressed: () async {
+                        context.read<TaskCrudBloc>().add(TaskUpdateEvent(
+                            title: titleController.text,
+                            subtitle: subtitleController.text,
+                            id: id));
                         Navigator.of(context).pop();
                       },
                       child: const Text('Update'),
-                    )
-                ),
+                    )),
               )
             ],
           ),

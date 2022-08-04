@@ -6,22 +6,25 @@ abstract class TaskCrudState extends Equatable {
 }
 
 class TaskCrudInitial extends TaskCrudState {}
+
 class TaskCrudError extends TaskCrudState {}
+
 class TaskCrudSuccess extends TaskCrudState {
-
   TaskCrudSuccess({required this.tasks});
-  final List<Map<String,dynamic>> tasks;
+  final List<Map<String, dynamic>> tasks;
 
   @override
   List<Object> get props => [tasks];
 }
-class TaskSearchSuccess extends TaskCrudState{
 
+class TaskSearchSuccess extends TaskCrudState {
   TaskSearchSuccess({required this.tasks});
-  final Iterable<Map<String,dynamic>> tasks;
+  final Iterable<Map<String, dynamic>> tasks;
 
   @override
   List<Object> get props => [tasks];
 }
+
 class TaskCrudLoading extends TaskCrudState {}
+
 class TaskCRUDFinish extends TaskCrudState {}

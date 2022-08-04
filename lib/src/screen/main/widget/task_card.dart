@@ -2,24 +2,27 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:roundcheckbox/roundcheckbox.dart';
 import 'package:taskoo/src/screen/main/widget/task_update.dart';
 
 import '../../bloc/crud_task/task_crud_bloc.dart';
 
 class TaskCardWidget extends StatelessWidget {
-  TaskCardWidget({Key? key, required this.title, required this.subtitle, required this.keyValue, required this.onDelete, required this.id}) : super(key: key);
+  TaskCardWidget(
+      {Key? key,
+      required this.title,
+      required this.subtitle,
+      required this.keyValue,
+      required this.onDelete,
+      required this.id})
+      : super(key: key);
   final String title;
   final String subtitle;
   final int id;
   final int keyValue;
   final Function(DismissDirection) onDelete;
 
-
-
   final ValueNotifier<bool> isChecked = ValueNotifier(false);
-
 
   @override
   Widget build(BuildContext context) {
@@ -48,11 +51,8 @@ class TaskCardWidget extends StatelessWidget {
                       subtitle: subtitle,
                       id: id,
                     );
-                  }
-              );
+                  });
             });
-
-
           },
           visualDensity: VisualDensity.adaptivePlatformDensity,
           leading: Transform.translate(
@@ -63,7 +63,7 @@ class TaskCardWidget extends StatelessWidget {
               borderColor: Colors.white,
               animationDuration: const Duration(milliseconds: 100),
               onTap: (selected) {
-                if(selected == true){
+                if (selected == true) {
                   context.read<TaskCrudBloc>().add(TaskDeleteEvent(id: id));
                 }
               },
@@ -71,9 +71,7 @@ class TaskCardWidget extends StatelessWidget {
             ),
           ),
           title: Transform.translate(
-            offset: const Offset(-20, 0),
-              child: Text(title)
-          ),
+              offset: const Offset(-20, 0), child: Text(title)),
           subtitle: Transform.translate(
             offset: const Offset(-20, 0),
             child: Column(
@@ -88,24 +86,25 @@ class TaskCardWidget extends StatelessWidget {
                     subtitle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                        fontSize: 12
-                    ),
+                    style: const TextStyle(fontSize: 12),
                   ),
                 ),
                 Align(
                   alignment: Alignment.bottomRight,
                   child: Transform.translate(
-                    offset: const Offset(50,5),
+                    offset: const Offset(50, 5),
                     child: SizedBox(
                       width: 100,
                       child: Row(
                         children: const [
-                          Text('Входящие',style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 13
-                          ),),
-                          Icon(Icons.inbox,size: 15,)
+                          Text(
+                            'Входящие',
+                            style: TextStyle(color: Colors.grey, fontSize: 13),
+                          ),
+                          Icon(
+                            Icons.inbox,
+                            size: 15,
+                          )
                         ],
                       ),
                     ),
@@ -114,7 +113,6 @@ class TaskCardWidget extends StatelessWidget {
               ],
             ),
           ),
-
         ),
       ),
     );

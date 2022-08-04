@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:taskoo/service/model/task.dart';
 
 class DatabaseCRUD {
   DatabaseCRUD();
@@ -36,7 +35,7 @@ class DatabaseCRUD {
 
   static Future<List<Map<String, dynamic>>> searchTask() async {
     final db = await DatabaseCRUD.initDatabase();
-    return db.query('task',orderBy: 'id');
+    return db.query('task', orderBy: 'id');
   }
 
   static Future deleteItem(int id) async {

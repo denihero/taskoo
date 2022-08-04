@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taskoo/src/screen/bloc/crud_task/task_crud_bloc.dart';
-import 'package:taskoo/src/screen/main/widget/task_card.dart';
-
 
 class CustomSearchDelegate extends SearchDelegate<String> {
   @override
@@ -10,10 +6,8 @@ class CustomSearchDelegate extends SearchDelegate<String> {
     return [
       IconButton(
           onPressed: () {
-            print(query);
           },
-          icon: const Icon(Icons.search)
-      )
+          icon: const Icon(Icons.search))
     ];
   }
 
@@ -32,9 +26,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
         SizedBox(
           height: 10,
         ),
-        Expanded(
-          child: Text('Wait')
-        )
+        Expanded(child: Text('Wait'))
       ],
     );
   }
@@ -43,5 +35,4 @@ class CustomSearchDelegate extends SearchDelegate<String> {
   Widget buildSuggestions(BuildContext context) {
     return Container();
   }
-
 }

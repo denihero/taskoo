@@ -12,6 +12,7 @@ class SimpleBlocObserver extends BlocObserver {
     print('${bloc.runtimeType} $error $stackTrace');
     super.onError(bloc, error, stackTrace);
   }
+
   @override
   void onTransition(Bloc bloc, Transition transition) {
     print("$bloc $transition");

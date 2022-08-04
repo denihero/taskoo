@@ -6,7 +6,6 @@ import 'package:taskoo/src/screen/main/widget/sheet/search_sheet.dart';
 import 'package:taskoo/src/screen/main/widget/sheet/task_add_sheet.dart';
 import 'package:taskoo/src/screen/main/widget/task_card.dart';
 
-
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
 
@@ -14,8 +13,8 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin {
-
+class _MainPageState extends State<MainPage>
+    with SingleTickerProviderStateMixin {
   late final AnimationController? animationController;
 
   @override
@@ -25,9 +24,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
         vsync: this,
         duration: const Duration(milliseconds: 200),
         reverseDuration: const Duration(milliseconds: 200),
-        upperBound: 2
-
-    );
+        upperBound: 2);
   }
 
   @override
@@ -35,7 +32,6 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
     BlocProvider.of<TaskCrudBloc>(context).add(TaskGetEvent());
     super.didChangeDependencies();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -54,38 +50,37 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
               context.read<TaskCrudBloc>().add(TaskGetEvent());
             },
             child: BlocConsumer<TaskCrudBloc, TaskCrudState>(
-              builder: (context, state) {
-                if(state is TaskCrudLoading){
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }else if(state is TaskCrudError){
-                  return const Text('Some thing get wrong');
-                }else if(state is TaskCrudSuccess){
-                  final task = state.tasks;
-                  return ListView.builder(
-                      itemCount: task.length,
-                      itemBuilder: (context, index) {
-                        return TaskCardWidget(
-                          title: task[index]['title'],
-                          subtitle: task[index]['subtitle'],
-                          id: task[index]['id'],
-                          onDelete: (value) {
-                            context.read<TaskCrudBloc>().add(TaskDeleteEvent(id: task[index]['id']));
-                          },
-                          keyValue: task[index]['id'],
-                        );
-                      }
-                  );
-                }
-                return const SizedBox();
-              },
-              listener: (context,state){
-                if(state is TaskCRUDFinish){
-                  context.read<TaskCrudBloc>().add(TaskGetEvent());
-                }
+                builder: (context, state) {
+              if (state is TaskCrudLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (state is TaskCrudError) {
+                return const Text('Some thing get wrong');
+              } else if (state is TaskCrudSuccess) {
+                final task = state.tasks;
+                return ListView.builder(
+                    itemCount: task.length,
+                    itemBuilder: (context, index) {
+                      return TaskCardWidget(
+                        title: task[index]['title'],
+                        subtitle: task[index]['subtitle'],
+                        id: task[index]['id'],
+                        onDelete: (value) {
+                          context
+                              .read<TaskCrudBloc>()
+                              .add(TaskDeleteEvent(id: task[index]['id']));
+                        },
+                        keyValue: task[index]['id'],
+                      );
+                    });
               }
-            ),
+              return const SizedBox();
+            }, listener: (context, state) {
+              if (state is TaskCRUDFinish) {
+                context.read<TaskCrudBloc>().add(TaskGetEvent());
+              }
+            }),
           ),
           bottomNavigationBar: Container(
             height: 55,
@@ -123,8 +118,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                           onPressed: () {
                             showSearch(
                                 context: context,
-                                  delegate: CustomSearchDelegate()
-                            );
+                                delegate: CustomSearchDelegate());
                           },
                           icon: const Icon(
                             Icons.search,
@@ -143,7 +137,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
             ),
           ),
           floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniCenterDocked,
+              FloatingActionButtonLocation.miniCenterDocked,
           floatingActionButton: FloatingActionButton(
             heroTag: 'key',
             onPressed: () {
@@ -151,7 +145,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
                   backgroundColor: Colors.transparent,
                   elevation: 0,
                   barrierColor: Colors.black38,
-                  isScrollControlled:true,
+                  isScrollControlled: true,
                   context: context,
                   transitionAnimationController: animationController,
                   builder: (context) {
@@ -165,6 +159,7 @@ class _MainPageState extends State<MainPage> with SingleTickerProviderStateMixin
       ),
     );
   }
+
   _onBackPressed(BuildContext context) {
     FocusScope.of(context).unfocus();
   }

@@ -5,9 +5,7 @@ import 'package:taskoo/service/database/sql_crud.dart';
 import 'package:taskoo/src/screen/bloc/crud_task/task_crud_bloc.dart';
 
 class TaskAddSheet extends StatefulWidget {
-  const   TaskAddSheet(
-      {Key? key})
-      : super(key: key);
+  const TaskAddSheet({Key? key}) : super(key: key);
 
   @override
   State<TaskAddSheet> createState() => _TaskAddSheetState();
@@ -18,7 +16,6 @@ class _TaskAddSheetState extends State<TaskAddSheet> {
   final textController = TextEditingController();
   final subtitleController = TextEditingController();
 
-
   final DatabaseCRUD databaseCRUD = DatabaseCRUD();
   Color sendIconColor = Colors.transparent;
 
@@ -26,10 +23,9 @@ class _TaskAddSheetState extends State<TaskAddSheet> {
   void initState() {
     super.initState();
     textController.addListener(() {
-      sendIconColor = textController.text.isEmpty ? Colors.transparent:Colors.teal;
-      setState((){
-
-      });
+      sendIconColor =
+          textController.text.isEmpty ? Colors.transparent : Colors.teal;
+      setState(() {});
     });
   }
 
@@ -52,7 +48,8 @@ class _TaskAddSheetState extends State<TaskAddSheet> {
             padding: const EdgeInsets.fromLTRB(20, 0, 0, 15),
             child: ValueListenableBuilder(
               valueListenable: addTaskFocusNode,
-              builder: (BuildContext context,FocusNode focusNode, Widget? child) {
+              builder:
+                  (BuildContext context, FocusNode focusNode, Widget? child) {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -93,26 +90,31 @@ class _TaskAddSheetState extends State<TaskAddSheet> {
                             radius: 19,
                             backgroundColor: sendIconColor,
                             child: IconButton(
-                                icon: const Icon(Icons.send_outlined,color: Colors.white,),
+                                icon: const Icon(
+                                  Icons.send_outlined,
+                                  color: Colors.white,
+                                ),
                                 constraints: const BoxConstraints(),
                                 padding: EdgeInsets.zero,
-                                onPressed: () async{
-                                  if(textController.text.isEmpty || textController.text.isEmpty && subtitleController.text.isEmpty){
+                                onPressed: () async {
+                                  if (textController.text.isEmpty ||
+                                      textController.text.isEmpty &&
+                                          subtitleController.text.isEmpty) {
                                     return;
-                                  }else{
-                                   context.read<TaskCrudBloc>().add(TaskAddEvent(title: textController.text, subtitle: subtitleController.text));
+                                  } else {
+                                    context.read<TaskCrudBloc>().add(
+                                        TaskAddEvent(
+                                            title: textController.text,
+                                            subtitle: subtitleController.text));
                                     textController.text = '';
                                     subtitleController.text = '';
                                   }
-                                }
-
-                            ),
+                                }),
                           )),
                     )
                   ],
                 );
               },
-
             ),
           ),
         ),
