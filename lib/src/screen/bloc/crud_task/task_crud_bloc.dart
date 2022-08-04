@@ -45,7 +45,6 @@ class TaskCrudBloc extends Bloc<TaskCrudEvent, TaskCrudState> {
         if (kDebugMode) {
           print(err);
           print(dtl);
-
         }
         emit(TaskCrudError());
       }
