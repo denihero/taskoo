@@ -3,12 +3,7 @@ import 'package:flutter/material.dart';
 class CustomSearchDelegate extends SearchDelegate<String> {
   @override
   List<Widget>? buildActions(BuildContext context) {
-    return [
-      IconButton(
-          onPressed: () {
-          },
-          icon: const Icon(Icons.search))
-    ];
+    return [IconButton(onPressed: () {}, icon: const Icon(Icons.search))];
   }
 
   @override
