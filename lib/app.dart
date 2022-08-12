@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskoo/src/screen/bloc/crud_task/task_crud_bloc.dart';
+import 'package:taskoo/src/screen/bloc/cubit/search_cubit.dart';
 import 'package:taskoo/src/screen/main/main_page.dart';
 import 'package:taskoo/src/screen/setting/setting_page.dart';
 
@@ -10,7 +11,10 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => TaskCrudBloc())],
+      providers: [
+        BlocProvider(create: (context) => TaskCrudBloc()),
+        BlocProvider(create: (context) => SearchCubit())
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: '/',

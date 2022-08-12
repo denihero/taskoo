@@ -60,7 +60,7 @@ class TaskCardWidget extends StatelessWidget {
             child: RoundCheckBox(
               size: 23,
               checkedColor: Colors.teal,
-              borderColor: Colors.white,
+              borderColor: const Color.fromRGBO(179,179,179,1),
               animationDuration: const Duration(milliseconds: 100),
               onTap: (selected) {
                 if (selected == true) {

@@ -22,9 +22,7 @@ class _MainPageState extends State<MainPage>
     super.initState();
     animationController = AnimationController(
         vsync: this,
-        duration: const Duration(milliseconds: 200),
-        reverseDuration: const Duration(milliseconds: 200),
-        upperBound: 2);
+        duration: const Duration(milliseconds: 200));
   }
 
   @override
@@ -39,6 +37,7 @@ class _MainPageState extends State<MainPage>
       child: WillPopScope(
         onWillPop: _onBackPressed(context),
         child: Scaffold(
+          backgroundColor: Color.fromRGBO(29,29,29,1),
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
             backgroundColor: Colors.transparent,
@@ -144,7 +143,6 @@ class _MainPageState extends State<MainPage>
               showModalBottomSheet(
                   backgroundColor: Colors.transparent,
                   elevation: 0,
-                  barrierColor: Colors.black38,
                   isScrollControlled: true,
                   context: context,
                   transitionAnimationController: animationController,

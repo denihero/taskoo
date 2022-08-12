@@ -1,7 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskoo/service/database/sql_crud.dart';
-import 'package:taskoo/src/screen/bloc/crud_task/task_crud_bloc.dart';
+import 'package:taskoo/src/screen/main/widget/button/send.dart';
 
 class TaskAddSheet extends StatefulWidget {
   const TaskAddSheet({Key? key}) : super(key: key);
@@ -34,10 +34,10 @@ class _TaskAddSheetState extends State<TaskAddSheet> {
       child: Hero(
         tag: 'key',
         child: Container(
-          height: 471,
-          decoration: BoxDecoration(
-              color: Colors.grey[800]!,
-              borderRadius: const BorderRadius.only(
+          height: 500,
+          decoration: const BoxDecoration(
+              color: Color.fromRGBO(29,29,29,1),
+              borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(12),
                 topRight: Radius.circular(12),
               )),
@@ -64,9 +64,27 @@ class _TaskAddSheetState extends State<TaskAddSheet> {
                       textCapitalization: TextCapitalization.sentences,
                       textInputAction: TextInputAction.next,
                       maxLines: 2,
+                      onChanged: (str){
+                        if(str == '!!'){
+                           // showMenu(
+                           //     context: context,
+                           //     position: RelativeRect.fromSize(
+                           //       Rect.fromCenter(
+                           //           center: Offset.zero, width: 100, height: 100),
+                           //       Size(100, 100),
+                           //     ),
+                           //     items: [
+                           //      const PopupMenuItem(child: Text('12')),
+                           //      PopupMenuItem(child: Text('12')),
+                           //      PopupMenuItem(child: Text('12')),
+                           //     ]
+                           // );
+                        }
+                      },
                       decoration: const InputDecoration(
-                          hintText: 'Напр,. пойти в ресторан',
+                          hintText: 'Напр,. пойти в ресторан с подругой',
                           border: InputBorder.none,
+                          hintStyle: TextStyle(fontSize: 17,color: Colors.grey),
                           contentPadding: EdgeInsets.zero),
                     ),
                     TextFormField(
@@ -81,35 +99,43 @@ class _TaskAddSheetState extends State<TaskAddSheet> {
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.zero),
                     ),
+                    Transform.translate(
+                      offset: const Offset(0, 40),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            iconSize: 24,
+                            constraints: const BoxConstraints(minHeight: 1),
+                            padding: EdgeInsets.zero,
+                            onPressed: () {
+
+                            },
+                            icon: const Icon(Icons.flag_outlined),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          IconButton(
+                            iconSize: 24,
+                            constraints: const BoxConstraints(),
+                            padding: EdgeInsets.zero,
+                            onPressed: () {},
+                            icon: const Icon(Icons.timer_sharp),
+                          ),
+                        ],
+                      ),
+                    ),
                     Align(
                       alignment: Alignment.bottomRight,
                       child: Transform.translate(
-                          offset: const Offset(-10, 0),
-                          child: CircleAvatar(
-                            radius: 19,
-                            backgroundColor: sendIconColor,
-                            child: IconButton(
-                                icon: const Icon(
-                                  Icons.send_outlined,
-                                  color: Colors.white,
-                                ),
-                                constraints: const BoxConstraints(),
-                                padding: EdgeInsets.zero,
-                                onPressed: () async {
-                                  if (textController.text.isEmpty ||
-                                      textController.text.isEmpty &&
-                                          subtitleController.text.isEmpty) {
-                                    return;
-                                  } else {
-                                    context.read<TaskCrudBloc>().add(
-                                        TaskAddEvent(
-                                            title: textController.text,
-                                            subtitle: subtitleController.text));
-                                    textController.text = '';
-                                    subtitleController.text = '';
-                                  }
-                                }),
-                          )),
+                        offset: const Offset(-5,15),
+                        child: SendButton(
+                          backgroundColor: sendIconColor,
+                          textController: textController,
+                          subtitleController: subtitleController,
+                        )
+                      ),
                     )
                   ],
                 );
@@ -118,6 +144,18 @@ class _TaskAddSheetState extends State<TaskAddSheet> {
           ),
         ),
       ),
+    );
+  }
+   windowsw(){
+    return PopupMenuButton(
+        itemBuilder:(context){
+          return [
+            PopupMenuItem(child: Text('1')),
+            PopupMenuItem(child: Text('2')),
+            PopupMenuItem(child: Text('3')),
+            PopupMenuItem(child: Text('4')),
+          ];
+        }
     );
   }
 }
