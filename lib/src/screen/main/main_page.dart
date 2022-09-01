@@ -37,7 +37,7 @@ class _MainPageState extends State<MainPage>
       child: WillPopScope(
         onWillPop: _onBackPressed(context),
         child: Scaffold(
-          backgroundColor: Color.fromRGBO(29,29,29,1),
+          backgroundColor: const Color.fromRGBO(29,29,29,1),
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
             backgroundColor: Colors.transparent,
